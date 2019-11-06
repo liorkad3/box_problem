@@ -4,9 +4,9 @@ import java.util.*;
 
 import static java.util.Collections.binarySearch;
 
-public class Main {
+public class TesterKnapSack {
 
-    public static final int BAG_WEIGHT = 23000;
+    public static final int BAG_WEIGHT = 9;
     public static WeightComparator weightComparator = new WeightComparator();
 
     public static void main(String[] args) {
@@ -17,7 +17,7 @@ public class Main {
         for (int i = 0; i < 10; i++) {
             long currentMillis = System.nanoTime();
 
-            result = solution3(products);
+            result = knapSack(BAG_WEIGHT,products);
 
             long timeResult = System.nanoTime() - currentMillis;
 
@@ -30,22 +30,45 @@ public class Main {
 
     }
 
+    private static int knapSack(int W, ArrayList<Product> items){
+        int[][] gains = new int[items.size()][W+1];
+
+        for (int item = 0;item < items.size(); item++) {
+            Product product = items.get(item);
+            for (int weight = 1; weight <= W; weight++) {
+                if (product.getWeight() <= weight){
+                    if (item == 0){
+                        gains[item][weight] = product.getPrice();
+                    }
+                    else {
+                        gains[item][weight] =  max(gains[item-1][weight],
+                                gains[item-1][weight-product.getWeight()] + product.getPrice() );
+                    }
+                }
+            }
+        }
+        return gains[items.size()-1][W];
+    }
+
     public static ArrayList<Product> initializeList(){
         ArrayList<Product> products = new ArrayList<>();
-        products.add(new Product(80, 80));
-        products.add(new Product(100, 105));
-        products.add(new Product(200, 200));
-        products.add(new Product(200, 10));
-        products.add(new Product(100, 34));
-        products.add(new Product(1, 0));
-        products.add(new Product(2, 1));
-        products.add(new Product(150, 110));
-        products.add(new Product(40, 35));
-        products.add(new Product(5, 3));
-        products.add(new Product(30, 25));
-        products.add(new Product(230, 200));
-        products.add(new Product(25, 24));
-        products.add(new Product(133, 95));
+//        products.add(new Product(80, 80));
+//        products.add(new Product(100, 105));
+//        products.add(new Product(200, 200));
+//        products.add(new Product(200, 10));
+//        products.add(new Product(100, 34));
+//        products.add(new Product(1, 0));
+//        products.add(new Product(2, 1));
+//        products.add(new Product(150, 110));
+//        products.add(new Product(40, 35));
+//        products.add(new Product(5, 3));
+//        products.add(new Product(30, 25));
+//        products.add(new Product(230, 200));
+//        products.add(new Product(25, 24));
+//        products.add(new Product(133, 95));
+        products.add(new Product(5,4));
+        products.add(new Product(3,3));
+        products.add(new Product(2,2));
 
         return products;
     }
