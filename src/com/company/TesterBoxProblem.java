@@ -24,13 +24,15 @@ public class TesterBoxProblem {
     }
 
     private static double pyramidHeight(Box[] boxes){
+//        boxes argument is a box array that are sorted by surface area ascending.
         double[] maxOnto = new double[boxes.length+1];
         Box infiniteBase = new Box(Double.MAX_VALUE,Double.MAX_VALUE);
-
-        for (int n = 0; n < maxOnto.length; n++) { //loop over the boxes.
-            Box base = n == maxOnto.length-1 ? infiniteBase : boxes[n];
+        // infinite base is practically the floor, on which each box can be placed.
+        for (int n = 0; n < maxOnto.length; n++) {
+            //loop over the boxes, and find the max height that can be placed on him excluding the box itself.
+            Box base = n == maxOnto.length-1 ? infiniteBase : boxes[n];//the last place in array is for the 'floor'
             for (int m = n-1; m >=0; m--) {
-                //loop over the bases on which the box above can be placed
+                //loop over the max heights that each box can have on itself.
                 Box box = boxes[m];
                 if (base.isTopable(box)) {
                     maxOnto[n] = max(maxOnto[n],maxOnto[m]+box.getHeight());
