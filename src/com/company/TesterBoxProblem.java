@@ -11,7 +11,7 @@ public class TesterBoxProblem {
         double maxHeight = pyramidHeight(boxes);
         System.out.println(maxHeight);
     }
-
+//    recursive solution => low efficiency
     private static double pyramidHeight(Box[] boxes, Box base, int i) {
         if (i>boxes.length-1)
             return 0;
@@ -23,6 +23,7 @@ public class TesterBoxProblem {
         return max(withBox,withoutBox);
     }
 
+//      iterative solution => better efficiency
     private static double pyramidHeight(Box[] boxes){
 //        boxes argument is a box array that are sorted by surface area ascending.
         double[] maxOnto = new double[boxes.length+1];
